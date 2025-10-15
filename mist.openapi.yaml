@@ -3,11 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2509.1.5**
+  description: '> Version: **2509.1.6**
 
     >
 
-    > Date: **October 3, 2025**
+    > Date: **October 15, 2025**
 
     <div class="notification"> NOTE:<br>Some important API changes will be introduced.
     Please make sure to read the <a href="https://www.juniper.net/documentation/us/en/software/mist/api/http/guides/important-api-changes">announcements</a>
@@ -51,7 +51,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2509.1.4
+  version: 2509.1.6
   x-logo:
     altText: Juniper-MistAI
     backgroundColor: '#FFFFFF'
@@ -71877,6 +71877,15 @@ components:
       type: object
     marvis_auto_operations:
       properties:
+        ap_insufficient_capacity:
+          default: false
+          type: boolean
+        ap_loop:
+          default: false
+          type: boolean
+        ap_non_compliant:
+          default: false
+          type: boolean
         bounce_port_for_abnormal_poe_client:
           default: false
           type: boolean
@@ -71884,6 +71893,15 @@ components:
           default: false
           type: boolean
         disable_port_when_rogue_dhcp_server_detected:
+          default: false
+          type: boolean
+        gateway_non_compliant:
+          default: false
+          type: boolean
+        switch_misconfigured_port:
+          default: false
+          type: boolean
+        switch_port_stuck:
           default: false
           type: boolean
       type: object
