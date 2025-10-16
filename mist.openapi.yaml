@@ -3,11 +3,11 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2509.1.6**
+  description: '> Version: **2509.1.7**
 
     >
 
-    > Date: **October 15, 2025**
+    > Date: **October 16, 2025**
 
     <div class="notification"> NOTE:<br>Some important API changes will be introduced.
     Please make sure to read the <a href="https://www.juniper.net/documentation/us/en/software/mist/api/http/guides/important-api-changes">announcements</a>
@@ -51,7 +51,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2509.1.6
+  version: 2509.1.7
   x-logo:
     altText: Juniper-MistAI
     backgroundColor: '#FFFFFF'
@@ -4068,6 +4068,9 @@ paths:
           $ref: '#/components/schemas/strings'
       - $ref: '#/components/parameters/limit'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/start'
+      - $ref: '#/components/parameters/end'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/OrgsSearch'
@@ -4164,7 +4167,13 @@ paths:
         required: true
         schema:
           $ref: '#/components/schemas/msp_search_type'
-      - $ref: '#/components/parameters/q'
+      - description: Search string
+        in: query
+        name: q
+        required: true
+        schema:
+          example: live
+          type: string
       - $ref: '#/components/parameters/limit'
       - $ref: '#/components/parameters/start'
       - $ref: '#/components/parameters/end'
@@ -5130,6 +5139,7 @@ paths:
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/limit'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/AlarmsSearch'
@@ -7079,6 +7089,7 @@ paths:
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
       - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/EventsSearch'
@@ -7192,6 +7203,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/ClientsSearch'
@@ -7352,6 +7364,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/WirelessClientSessionsSearch'
@@ -8208,6 +8221,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/DeviceEventsSearch'
@@ -8294,6 +8308,7 @@ paths:
       - $ref: '#/components/parameters/limit'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/ConfigsHistorySearch'
@@ -8566,6 +8581,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/DevicesSearch'
@@ -8758,6 +8774,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/OrgEventsSearch'
@@ -8818,6 +8835,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/OrgSystemEventsSearch'
@@ -10138,8 +10156,8 @@ paths:
         schema:
           type: string
       - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/page'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/OrgInventorySearch'
@@ -10518,8 +10536,8 @@ paths:
         schema:
           type: string
       - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/page'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/JsiInventorySearch'
@@ -11401,6 +11419,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort_last_seen_reverse'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/MxEdgeEventsSearch'
@@ -11460,11 +11479,11 @@ paths:
         schema:
           type: boolean
       - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/page'
       - $ref: '#/components/parameters/start'
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort_last_seen_reverse'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/MxEdgeSearch'
@@ -12403,6 +12422,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort_wcid'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/EventsNacClientSearch'
@@ -12581,11 +12601,11 @@ paths:
         schema:
           type: string
       - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/page'
       - $ref: '#/components/parameters/start'
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort_wcid'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/ClientNacSearch'
@@ -14202,6 +14222,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/EventsOtherDevicesSearch'
@@ -14612,12 +14633,6 @@ paths:
       description: Search Org PSK Portal Logs
       operationId: searchOrgPskPortalLogs
       parameters:
-      - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/page'
-      - $ref: '#/components/parameters/start'
-      - $ref: '#/components/parameters/end'
-      - $ref: '#/components/parameters/duration'
-      - $ref: '#/components/parameters/sort'
       - in: query
         name: psk_name
         schema:
@@ -14650,6 +14665,12 @@ paths:
         schema:
           format: uuid
           type: string
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/start'
+      - $ref: '#/components/parameters/end'
+      - $ref: '#/components/parameters/duration'
+      - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/PskPortalLogsSearch'
@@ -17858,6 +17879,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/SitesSearch'
@@ -18712,6 +18734,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/AssetsArrayStatsSearch'
@@ -18790,6 +18813,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/BgpStatsArraySearch'
@@ -19349,6 +19373,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/PortStatsSearch'
@@ -19576,6 +19601,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration_5m'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/TunnelsSearch'
@@ -19644,6 +19670,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/VpnPeersStats'
@@ -20550,8 +20577,8 @@ paths:
         schema:
           $ref: '#/components/schemas/var_source'
       - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/page'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/SearchVar'
@@ -20806,6 +20833,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/WanClientEventsSearch'
@@ -20860,11 +20888,11 @@ paths:
         schema:
           type: string
       - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/page'
       - $ref: '#/components/parameters/start'
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/WanClientsSearch'
@@ -21114,6 +21142,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/WebhookDeliverySearch'
@@ -21286,6 +21315,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/WiredClientsSearch'
@@ -23048,6 +23078,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/AlarmsSearch'
@@ -24009,6 +24040,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/EventsSearch'
@@ -24084,6 +24116,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/ClientsSearch'
@@ -24226,6 +24259,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/ClientSessionsSearch'
@@ -24568,6 +24602,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/ConfigsHistorySearch'
@@ -24747,6 +24782,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/EventsDevices'
@@ -24887,6 +24923,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/ConfigsHistorySearch'
@@ -25223,6 +25260,7 @@ paths:
         name: desc_sort
         schema:
           $ref: '#/components/schemas/search_site_devices_desc_sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/DevicesSearch'
@@ -28210,6 +28248,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/DeviceEventsSearch'
@@ -28527,6 +28566,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/GuestsSearch'
@@ -28787,6 +28827,7 @@ paths:
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/interval'
       - $ref: '#/components/parameters/sort_wcid'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/FingerprintSearch'
@@ -30051,6 +30092,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/MxEdgeEventsSearch'
@@ -30448,6 +30490,7 @@ paths:
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/limit'
       - $ref: '#/components/parameters/sort_wcid'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/EventsNacClientSearch'
@@ -30625,11 +30668,11 @@ paths:
         schema:
           type: string
       - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/page'
       - $ref: '#/components/parameters/start'
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort_wcid'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/ClientNacSearch'
@@ -30808,6 +30851,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/EventsOtherDevicesSearch'
@@ -31614,6 +31658,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/RogueEventsSearch'
@@ -32208,6 +32253,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/ServicePathEventsSearch'
@@ -32930,6 +32976,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/SkyAtpEventsSearch'
@@ -34054,6 +34101,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/AssetsArrayStatsSearch'
@@ -34187,6 +34235,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/BgpStatsArraySearch'
@@ -34318,6 +34367,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/CallStatsArray'
@@ -34626,6 +34676,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/DiscoveredSwitchMetrics'
@@ -34751,6 +34802,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/DiscoveredSwitches'
@@ -35442,6 +35494,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/SwitchPortsSearch'
@@ -35789,6 +35842,11 @@ paths:
         name: tenant
         schema:
           type: string
+      - $ref: '#/components/parameters/limit'
+      - $ref: '#/components/parameters/start'
+      - $ref: '#/components/parameters/end'
+      - $ref: '#/components/parameters/duration'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/SynthetictestSearch'
@@ -36313,6 +36371,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/WanClientEventsSearch'
@@ -36361,11 +36420,11 @@ paths:
           example: Cisco
           type: string
       - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/page'
       - $ref: '#/components/parameters/start'
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/WanClientsSearch'
@@ -36502,7 +36561,6 @@ paths:
           example: primary
           type: string
       - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/page'
       - $ref: '#/components/parameters/start'
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
@@ -36814,6 +36872,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/WebhookDeliverySearch'
@@ -37004,6 +37063,7 @@ paths:
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/WiredClientsSearch'
@@ -38644,11 +38704,11 @@ paths:
         schema:
           $ref: '#/components/schemas/visits_scope'
       - $ref: '#/components/parameters/limit'
-      - $ref: '#/components/parameters/page'
       - $ref: '#/components/parameters/start'
       - $ref: '#/components/parameters/end'
       - $ref: '#/components/parameters/duration'
       - $ref: '#/components/parameters/sort'
+      - $ref: '#/components/parameters/search_after'
       responses:
         '200':
           $ref: '#/components/responses/ZoneSessionsSearch'
@@ -48526,6 +48586,7 @@ components:
       value:
         end: 1614383378.4365287
         limit: 10
+        next: /api/v1/msps/43e96c5a-6ef6-11e6-9909-9596d1d1534f/orgs/search?end=1760601621&limit=1&search_after=%5B1760599794477%5D&start=1759996821
         results:
         - msp_id: d287e62f-0000-0000-0000-f2b9ba0a531f
           name: Test Org
@@ -53416,13 +53477,6 @@ components:
         example: 000000ab-00ab-00ab-00ab-0000000000ab
         format: uuid
         type: string
-    q:
-      description: Search string
-      in: query
-      name: q
-      schema:
-        example: search
-        type: string
     resolution:
       in: query
       name: resolution
@@ -53488,6 +53542,14 @@ components:
       schema:
         example: 000000ab-00ab-00ab-00ab-0000000000ab
         format: uuid
+        type: string
+    search_after:
+      description: Pagination cursor for retrieving subsequent pages of results. This
+        value is automatically populated by Mist in the `next` URL from the previous
+        response and should not be manually constructed.
+      in: query
+      name: search_after
+      schema:
         type: string
     secintelprofile_id:
       in: path
@@ -68532,9 +68594,8 @@ components:
         limit:
           example: 10
           type: integer
-        page:
-          example: 1
-          type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/fingerprints'
         start:
@@ -70355,14 +70416,20 @@ components:
       type: array
     inventory_search:
       properties:
+        end:
+          type: integer
         limit:
           example: 1000
           type: integer
-        page:
-          example: 1
-          type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/inventory_search_results'
+        start:
+          type: integer
+        total:
+          example: 1
+          type: integer
       type: object
     inventory_search_result:
       properties:
@@ -70636,6 +70703,8 @@ components:
         limit:
           description: Number of results to return
           type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/js_inventory'
         start:
@@ -77801,6 +77870,8 @@ components:
         limit:
           example: 3
           type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/response_client_nac_search_results'
         start:
@@ -78356,6 +78427,8 @@ components:
         limit:
           example: 10
           type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/event_nac_clients'
         start:
@@ -78373,6 +78446,8 @@ components:
         limit:
           example: 10
           type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/response_events_orgs_search_results'
         start:
@@ -78391,6 +78466,8 @@ components:
           type: integer
         limit:
           type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/event_otherdevice'
         start:
@@ -78406,6 +78483,8 @@ components:
         limit:
           example: 10
           type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/response_events_path_search_results'
         start:
@@ -79038,6 +79117,8 @@ components:
         limit:
           example: 10
           type: integer
+        next:
+          type: string
         page:
           example: 3
           type: integer
@@ -79059,6 +79140,8 @@ components:
         limit:
           example: 10
           type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/response_mxedge_search_results'
         start:
@@ -79746,6 +79829,8 @@ components:
         limit:
           example: 100
           type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/response_psk_portal_logs_search_item_list'
         start:
@@ -79875,6 +79960,8 @@ components:
           type: number
         limit:
           type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/response_bgp_search_list_results'
         start:
@@ -79906,6 +79993,8 @@ components:
           type: integer
         limit:
           type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/response_search_var_results'
         start:
@@ -80401,6 +80490,8 @@ components:
         limit:
           example: 10
           type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/response_switch_port_search_results'
         start:
@@ -81716,6 +81807,8 @@ components:
           type: integer
         limit:
           type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/events_client_wan'
         start:
@@ -81832,6 +81925,8 @@ components:
           type: integer
         limit:
           type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/stats_wan_clients'
         start:
@@ -81841,8 +81936,14 @@ components:
       type: object
     search_wan_usage:
       properties:
+        end:
+          type: number
+        limit:
+          type: integer
         results:
           $ref: '#/components/schemas/search_wan_usage_results'
+        start:
+          type: number
       type: object
     search_wan_usage_results:
       items:
@@ -81856,6 +81957,8 @@ components:
         limit:
           example: 10
           type: integer
+        next:
+          type: string
         results:
           $ref: '#/components/schemas/search_webhook_delivery_results'
         start:
