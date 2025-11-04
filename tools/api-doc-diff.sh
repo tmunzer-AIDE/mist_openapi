@@ -103,11 +103,13 @@ fi
 # MAIN OPERATIONS - All validations passed, proceed with work.
 # ============================================================================
 
-# Create timestamp (YYYYMMDD format).
-TIMESTAMP=$(date +%Y%m%d)
+# Create secure temporary directory with random naming.
+TEMP_BASE=$(mktemp -d) || {
+    error "Failed to create temporary directory"
+    cd "$ORIGINAL_DIR"
+    exit 1
+}
 
-# Create temporary directory structure.
-TEMP_BASE="/tmp/api-doc-diff/${TIMESTAMP}"
 FROM_DIR="${TEMP_BASE}/${FROM_TAG}"
 TO_DIR="${TEMP_BASE}/${TO_TAG}"
 
@@ -140,6 +142,15 @@ extract_file() {
     local dest_dir=$3
     local filename=$(basename "$filepath")
     
+    # Validate filename to prevent path traversal attacks.
+    # basename should already strip path components, but verify for safety.
+    case "$filename" in
+        */*|*\\*|..|.|"")
+            error "Invalid filename detected: $filename"
+            return 1
+            ;;
+    esac
+
     if git cat-file -e "${tag}:${filepath}" 2>/dev/null; then
         git show "${tag}:${filepath}" > "${dest_dir}/${filename}"
         echo "  ✓ Extracted: $filename"

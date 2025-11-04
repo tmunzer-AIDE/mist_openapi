@@ -71,6 +71,6 @@ Where `YYYYMMDD` is the current date (e.g., `20251104`).
 
 - Missing parameters → displays usage help.
 - Invalid path → exits with error message.
-- Not a git repository → exits with error message .
+- Not a git repository → exits with error message.
 - Non-existent tags → exits with error message.
 - Missing files in a tag → warns but continues (useful for comparing different versions where files may have been added/removed).
