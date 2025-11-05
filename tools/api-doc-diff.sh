@@ -152,13 +152,28 @@ extract_file() {
             return 1
             ;;
     esac
+    
+    # Validate destination directory exists and is writable.
+    if [ ! -d "$dest_dir" ] || [ ! -w "$dest_dir" ]; then
+        error "Destination directory not writable: $dest_dir"
+        return 1
+    fi
 
-    if git show "${tag}:${filepath}" > "${dest_dir}/${filename}" 2>/dev/null; then
+    # Attempt to extract the file. Capture stderr to distinguish between
+    # "file doesn't exist in tag" vs "write failure" errors.
+    local git_error
+    if git_error=$(git show "${tag}:${filepath}" 2>&1 > "${dest_dir}/${filename}"); then
         echo "  ✓ Extracted: $filename"
     else
-        warn "File does not exist in tag $tag: $filepath"
-        # Create empty placeholder file.
-        touch "${dest_dir}/${filename}.missing"
+        # Check if it's a "file doesn't exist" error or something else.
+        if echo "$git_error" | grep -q "does not exist\|exists on disk, but not in"; then
+            warn "File does not exist in tag $tag: $filepath"
+            # Create empty placeholder file.
+            touch "${dest_dir}/${filename}.missing"
+        else
+            error "Failed to extract $filepath: $git_error"
+            return 1
+        fi
     fi
 }
 
@@ -174,11 +189,15 @@ extract_all_files() {
 }
 
 # Extract files from both tags in parallel for better performance.
+# Capture output to prevent interleaved messages.
 echo ""
-extract_all_files "$FROM_TAG" "$FROM_DIR" &
+FROM_OUTPUT=$(mktemp)
+TO_OUTPUT=$(mktemp)
+
+extract_all_files "$FROM_TAG" "$FROM_DIR" > "$FROM_OUTPUT" 2>&1 &
 FROM_PID=$!
 
-extract_all_files "$TO_TAG" "$TO_DIR" &
+extract_all_files "$TO_TAG" "$TO_DIR" > "$TO_OUTPUT" 2>&1 &
 TO_PID=$!
 
 # Wait for both extraction processes to complete.
@@ -187,6 +206,13 @@ FROM_EXIT=$?
 
 wait $TO_PID
 TO_EXIT=$?
+
+# Display output sequentially to avoid garbled messages.
+cat "$FROM_OUTPUT"
+cat "$TO_OUTPUT"
+
+# Clean up temporary output files.
+rm -f "$FROM_OUTPUT" "$TO_OUTPUT"
 
 # Check if either extraction failed.
 if [ $FROM_EXIT -ne 0 ] || [ $TO_EXIT -ne 0 ]; then
