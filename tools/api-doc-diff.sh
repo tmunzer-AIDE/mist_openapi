@@ -86,18 +86,25 @@ if [ ! -d .git ]; then
     exit 1
 fi
 
-# Validate that the tags exist.
-if ! git rev-parse "$FROM_TAG" >/dev/null 2>&1; then
-    error "Tag does not exist: $FROM_TAG"
-    cd "$ORIGINAL_DIR"
-    exit 1
-fi
+# Fetch the requested tags from remote if they don't exist locally.
+echo "Checking and fetching required tags..."
+for tag in "$FROM_TAG" "$TO_TAG"; do
+    if ! git rev-parse "$tag" >/dev/null 2>&1; then
+        echo "Fetching tag: $tag"
+        if ! git fetch origin "refs/tags/${tag}:refs/tags/${tag}" 2>/dev/null; then
+            error "Tag does not exist on remote: $tag"
+            echo ""
+            echo "Please verify that the tag exists in the remote repository."
+            cd "$ORIGINAL_DIR"
+            exit 1
+        fi
+        success "Fetched tag: $tag"
+    else
+        echo "  ✓ Tag already exists locally: $tag"
+    fi
+done
 
-if ! git rev-parse "$TO_TAG" >/dev/null 2>&1; then
-    error "Tag does not exist: $TO_TAG"
-    cd "$ORIGINAL_DIR"
-    exit 1
-fi
+echo ""
 
 # ============================================================================
 # MAIN OPERATIONS - All validations passed, proceed with work.
@@ -114,13 +121,8 @@ FROM_DIR="${TEMP_BASE}/${FROM_TAG}"
 TO_DIR="${TEMP_BASE}/${TO_TAG}"
 
 echo "Creating temporary directories..."
-mkdir -p "$FROM_DIR" || {
-    error "Failed to create directory: $FROM_DIR"
-    cd "$ORIGINAL_DIR"
-    exit 1
-}
-mkdir -p "$TO_DIR" || {
-    error "Failed to create directory: $TO_DIR"
+mkdir -p "$FROM_DIR" "$TO_DIR" || {
+    error "Failed to create directories $FROM_DIR or $TO_DIR"
     cd "$ORIGINAL_DIR"
     exit 1
 }
@@ -151,8 +153,7 @@ extract_file() {
             ;;
     esac
 
-    if git cat-file -e "${tag}:${filepath}" 2>/dev/null; then
-        git show "${tag}:${filepath}" > "${dest_dir}/${filename}"
+    if git show "${tag}:${filepath}" > "${dest_dir}/${filename}" 2>/dev/null; then
         echo "  ✓ Extracted: $filename"
     else
         warn "File does not exist in tag $tag: $filepath"
@@ -161,19 +162,40 @@ extract_file() {
     fi
 }
 
-# Extract files from FROM tag.
-echo ""
-success "Extracting files from tag: $FROM_TAG"
-for file in "${FILES[@]}"; do
-    extract_file "$FROM_TAG" "$file" "$FROM_DIR"
-done
+# Extract all files from a tag.
+extract_all_files() {
+    local tag=$1
+    local dest_dir=$2
 
-# Extract files from TO tag.
+    success "Extracting files from tag: $tag"
+    for file in "${FILES[@]}"; do
+        extract_file "$tag" "$file" "$dest_dir"
+    done
+}
+
+# Extract files from both tags in parallel for better performance.
 echo ""
-success "Extracting files from tag: $TO_TAG"
-for file in "${FILES[@]}"; do
-    extract_file "$TO_TAG" "$file" "$TO_DIR"
-done
+extract_all_files "$FROM_TAG" "$FROM_DIR" &
+FROM_PID=$!
+
+extract_all_files "$TO_TAG" "$TO_DIR" &
+TO_PID=$!
+
+# Wait for both extraction processes to complete.
+wait $FROM_PID
+FROM_EXIT=$?
+
+wait $TO_PID
+TO_EXIT=$?
+
+# Check if either extraction failed.
+if [ $FROM_EXIT -ne 0 ] || [ $TO_EXIT -ne 0 ]; then
+    error "File extraction failed"
+    cd "$ORIGINAL_DIR"
+    exit 1
+fi
+
+echo ""
 
 # Print location of extracted files.
 echo ""
