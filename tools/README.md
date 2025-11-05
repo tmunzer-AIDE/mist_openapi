@@ -34,18 +34,17 @@ Only contributors from Juniper/HPE with existing access to the specified reposit
 
 1. Validates all input parameters and checks that the path is a valid git repository.
 2. Checks if the specified tags exist locally; if not, fetches them from the remote repository.
-3. Validates that both tags are available (either locally or fetched from remote).
-4. Creates a secure temporary directory with random naming using `mktemp -d`.
-5. Extracts the following documentation files from both tags:
+3. Creates a secure temporary directory with random naming using `mktemp -d`.
+4. Extracts the following documentation files from both tags:
    - `docs/src/Home.md`
    - `docs/src/Overview.md`
    - `docs/src/Auth.md`
    - `docs/src/Site.md`
    - `docs/src/Org.md`
    - `docs/src/MSP.md`
-6. Opens VS Code with the temporary directory containing both versions.
-7. Prints the location of extracted files for reference.
-8. Returns to the original working directory.
+5. Opens VS Code with the temporary directory containing both versions.
+6. Prints the location of extracted files for reference.
+7. Returns to the original working directory.
 
 **Features**:
 
