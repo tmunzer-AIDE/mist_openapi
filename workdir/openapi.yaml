@@ -67848,7 +67848,7 @@ components:
         org_id:
           $ref: '#/components/schemas/org_id'
         port_id:
-          $ref: '#/components/schemas/nac_port_id'
+          $ref: '#/components/schemas/nac_event_port_id'
         port_type:
           $ref: '#/components/schemas/nac_access_type'
         random_mac:
@@ -73367,10 +73367,11 @@ components:
         $ref: '#/components/schemas/mxtunnel'
       type: array
     nac_access_type:
-      description: 'Type of network access. enum: `wireless`, `wired`'
+      description: 'Type of network access. enum: `wireless`, `wired`, `vty`'
       enum:
       - wireless
       - wired
+      - vty
       example: wireless
       type: string
     nac_auth_type:
@@ -73587,6 +73588,11 @@ components:
         type: string
       readOnly: true
       type: array
+    nac_event_port_id:
+      description: Port ID where the NAC client event occurred
+      example: ge-0/0/17.0
+      readOnly: true
+      type: string
     nac_portal:
       properties:
         access_type:
@@ -96577,7 +96583,7 @@ components:
         org_id:
           $ref: '#/components/schemas/org_id'
         port_id:
-          $ref: '#/components/schemas/nac_port_id'
+          $ref: '#/components/schemas/nac_event_port_id'
         random_mac:
           $ref: '#/components/schemas/random_mac'
         resp_attrs:
