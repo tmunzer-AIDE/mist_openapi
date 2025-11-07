@@ -77150,7 +77150,10 @@ components:
       uniqueItems: true
     random_mac:
       description: Whether the client is using randomized MAC Address or not
-      type: boolean
+      type: string
+      enum:
+      - 'true'
+      - 'false'
     recaptcha:
       properties:
         flavor:
