@@ -66172,7 +66172,9 @@ components:
         description:
           type: string
         example:
-          $ref: '#/components/schemas/const_insight_metrics_property_examples'
+          anyOf:
+          - $ref: '#/components/schemas/const_insight_metrics_property_examples'
+          - $ref: '#/components/schemas/const_insight_metrics_property_examples_object'
         intervals:
           $ref: '#/components/schemas/const_insight_metrics_property_intervals'
         keys:
@@ -66205,10 +66207,18 @@ components:
       - nullable: true
         type: string
       - type: boolean
+      - type: 'null'
+      - additionalProperties: true
+        type: object
     const_insight_metrics_property_examples:
       items:
         $ref: '#/components/schemas/const_insight_metrics_property_example'
       type: array
+    const_insight_metrics_property_examples_object:
+      additionalProperties:
+        $ref: '#/components/schemas/const_insight_metrics_property_examples'
+      description: Object containing named fields, each with array of example values
+      type: object
     const_insight_metrics_property_interval:
       properties:
         interval:
@@ -66247,14 +66257,26 @@ components:
       description: Property key is the duration (e.g. 1d, 1w, ...)
       type: object
     const_insight_metrics_property_scope:
-      description: 'enum: `ap`, `client`, `device`, `mxedge`, `site`, `switch`'
+      description: 'enum: `ap`, `client`, `device`, `gateway`, `map`, `msp`, `mxcluster`,
+        `mxedge`, `org`, `otherdevice`, `rssizone`, `sdkclient`, `site`, `switch`,
+        `wlan`, `zone`'
       enum:
       - ap
       - client
       - device
+      - gateway
+      - map
+      - msp
+      - mxcluster
       - mxedge
+      - org
+      - otherdevice
+      - rssizone
+      - sdkclient
       - site
       - switch
+      - wlan
+      - zone
       type: string
     const_insight_metrics_property_scopes:
       items:
