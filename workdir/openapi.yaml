@@ -61384,8 +61384,9 @@ components:
       type: array
     antenna_select:
       description: 'Antenna Mode for AP which supports selectable antennas. enum:
-        `external`, `internal`'
+        `""` (default), `external`, `internal`'
       enum:
+      - ""
       - external
       - internal
       example: external
