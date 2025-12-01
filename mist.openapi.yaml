@@ -3,7 +3,7 @@ info:
   contact:
     email: tmunzer@juniper.net
     name: Thomas Munzer
-  description: '> Version: **2511.1.2**
+  description: '> Version: **2511.1.3**
 
     >
 
@@ -51,7 +51,7 @@ info:
     name: MIT
     url: https://raw.githubusercontent.com/tmunzer/Mist-OAS3.0/main/LICENSE
   title: Mist API
-  version: 2511.1.2
+  version: 2511.1.3
   x-logo:
     altText: Juniper-MistAI
     backgroundColor: '#FFFFFF'
@@ -11312,9 +11312,10 @@ paths:
             examples:
               Example:
                 value:
-                  code: 135-546-673
+                - 6JG8E-PTFV2-A9Z2N
+                - DVH4V-SNMSZ-PDXBR
             schema:
-              $ref: '#/components/schemas/code_string'
+              $ref: '#/components/schemas/claim_codes'
         description: Request Body
       responses:
         '200':
@@ -74815,6 +74816,11 @@ components:
           type: boolean
         id:
           $ref: '#/components/schemas/id'
+        mac:
+          readOnly: true
+          examples:
+          - 0200009fbe65
+          type: string
         magic:
           examples:
           - L-NpT5gi-ADR8WTFd4EiQPY3cP5WdSoD
